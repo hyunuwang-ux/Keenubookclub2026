@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>독서모임 - 각자의 이상</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --ink:#14181c;
+    --ink-soft:#1d2329;
+    --paper:#f1e9da;
+    --paper-dim:#c9bfa9;
+    --amber:#c9a227;
+    --sage:#6f9576;
+    --line:rgba(241,233,218,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+  }
+  ::selection{background:var(--amber);color:var(--ink);}
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    opacity:0.05;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    z-index:2;
+  }
+
+  .wrap{max-width:760px; margin:0 auto; padding:0 24px;}
+
+  header.hero{
+    padding:88px 0 64px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-size:12.5px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin-bottom:20px;
+    font-weight:600;
+  }
+  h1.title{
+    font-weight:700;
+    font-size:clamp(30px, 8vw, 52px);
+    line-height:1.35;
+    margin:0 0 22px;
+    letter-spacing:-0.01em;
+    word-break:keep-all;
+  }
+  h1.title .blank{position:relative; display:inline-block;}
+  h1.title .blank::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:4px;
+    height:3px;
+    background:var(--amber);
+    opacity:0.85;
+  }
+  .hero p.lede{
+    font-size:16px;
+    color:var(--paper-dim);
+    max-width:520px;
+    margin:0 0 30px;
+  }
+  .hero .meta{
+    display:flex; gap:20px 28px; flex-wrap:wrap;
+    font-size:13.5px; color:var(--paper-dim);
+  }
+  .hero .meta b{color:var(--paper); font-weight:600;}
+
+  section{padding:60px 0;}
+  section + section{border-top:1px solid var(--line);}
+
+  .kicker{
+    font-size:13px;
+    color:var(--sage);
+    letter-spacing:0.05em;
+    margin-bottom:12px;
+    font-weight:600;
+  }
+  h2{
+    font-weight:700;
+    font-size:clamp(21px,5vw,26px);
+    margin:0 0 20px;
+    word-break:keep-all;
+  }
+
+  blockquote.thesis{
+    font-size:clamp(18px,4.6vw,22px);
+    font-weight:600;
+    line-height:1.65;
+    margin:0;
+    padding-left:20px;
+    border-left:2px solid var(--amber);
+    color:var(--paper);
+    word-break:keep-all;
+  }
+  blockquote.thesis + p{
+    margin-top:20px;
+    color:var(--paper-dim);
+    font-size:15px;
+    padding-left:22px;
+  }
+
+  .tag-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:8px;
+  }
+  .tag-card{
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:20px 18px;
+    background:var(--ink-soft);
+  }
+  .tag-card .n{
+    color:var(--amber);
+    font-size:12.5px;
+    margin-bottom:10px;
+    letter-spacing:0.1em;
+    font-weight:700;
+  }
+  .tag-card p{margin:0; font-size:14.5px; color:var(--paper);}
+
+  ul.includes{list-style:none; margin:0; padding:0;}
+  ul.includes li{
+    display:flex; gap:14px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+    color:var(--paper-dim);
+  }
+  ul.includes li:last-child{border-bottom:none;}
+  ul.includes li::before{
+    content:"❦";
+    color:var(--sage);
+    flex:0 0 auto;
+  }
+  ul.includes li b{color:var(--paper); font-weight:600;}
+
+  .sessions{display:flex; flex-direction:column; gap:18px; margin-top:8px;}
+  .session{
+    position:relative;
+    background:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:24px 22px;
+  }
+  .session .tab{
+    display:inline-block;
+    color:var(--amber);
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+  }
+  .session .date{
+    font-size:13px;
+    color:var(--sage);
+    letter-spacing:0.02em;
+    margin-bottom:8px;
+  }
+  .session h3{
+    font-size:19px;
+    margin:0 0 6px;
+    font-weight:700;
+    word-break:keep-all;
+  }
+  .session .author{
+    font-size:13.5px;
+    color:var(--paper-dim);
+    margin-bottom:14px;
+  }
+  .session .question{
+    font-size:14px;
+    color:var(--paper);
+    border-top:1px dashed var(--line);
+    padding-top:14px;
+    margin-top:4px;
+    word-break:keep-all;
+  }
+  .session .question em{color:var(--amber); font-style:normal; font-weight:700;}
+
+  .note{
+    font-size:13px;
+    color:var(--paper-dim);
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+
+  .info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+  }
+  .info-grid .block h4{
+    font-size:14.5px;
+    color:var(--amber);
+    margin:0 0 8px;
+    letter-spacing:0.02em;
+    font-weight:700;
+  }
+  .info-grid .block p{
+    font-size:14px;
+    color:var(--paper-dim);
+    margin:0;
+  }
+
+  .cta{
+    text-align:center;
+    padding:70px 0 90px;
+  }
+  .cta h2{margin-bottom:14px;}
+  .cta p{
+    color:var(--paper-dim);
+    font-size:14.5px;
+    max-width:420px;
+    margin:0 auto 28px;
+  }
+  .cta .deadline{
+    display:inline-block;
+    border:1px solid var(--amber);
+    color:var(--amber);
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    padding:8px 16px;
+    border-radius:999px;
+  }
+
+  footer{
+    text-align:center;
+    padding:32px 0 56px;
+    color:var(--paper-dim);
+    font-size:12px;
+    letter-spacing:0.02em;
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:0 20px;}
+    header.hero{padding:56px 0 44px;}
+    section{padding:44px 0;}
+    .tag-grid, .info-grid{grid-template-columns:1fr;}
+    .hero .meta{flex-direction:column; gap:8px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">독서모임 - 각자의 이상 · 2026 가을–겨울</div>
+    <h1 class="title">각자의 <span class="blank">이상적인 것</span>을<br>나누는 독서모임</h1>
+    <p class="lede">각자의 삶은 전부 다른 모양을 하고 있지만, 그 모양엔 저마다의 논리가 있습니다. 넉 달 동안 책 한 권씩을 사이에 두고, 각자가 마음에 품고 있는 이상적인 것들을 나눠보려 합니다.</p>
+    <div class="meta">
+      <div><b>9.20 · 10.18 · 11.15 · 12.20</b></div>
+      <div><b>14:00 – 17:00</b></div>
+      <div><b>연희동</b>의 작은 주택</div>
+    </div>
+  </header>
+
+  <section>
+    <div class="kicker">기획 의도</div>
+    <blockquote class="thesis">
+      책은 정답이나 정보가 아니라, 각자 마음속에 품고 있는 이상적인 무언가에 대해 말할 수 있는 계기로 골랐습니다.
+    </blockquote>
+    <p>관계, 미래, 세계, 삶 — 매 회 하나의 주제를 놓고, 그것이 나에게는 어떤 모습인지를 각자의 언어로 꺼내봅니다. 정답을 맞추는 자리가 아니라, 서로 다른 삶의 형성 과정을 이해하고 시야를 넓혀가는 자리입니다.</p>
+  </section>
+
+  <section>
+    <div class="kicker">이런 분을 환영합니다</div>
+    <h2>모집 대상</h2>
+    <div class="tag-grid">
+      <div class="tag-card">
+        <div class="n">01</div>
+        <p>평소 자신의 시각을 조금 더 넓히고 싶으신 분</p>
+      </div>
+      <div class="tag-card">
+        <div class="n">02</div>
+        <p>기존 인간관계의 반경을 넘어, 다양한 배경의 사람과 깊은 대화를 나눠보고 싶은 분</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">모임이 포함하는 것</div>
+    <h2>준비되어 있는 것들</h2>
+    <ul class="includes">
+      <li><span><b>페어링 다과 & 커피</b> — 매 회 책과 어울리는 다과를 준비합니다. 디카페인 옵션이 있습니다.</span></li>
+      <li><span><b>발제문 & 모더레이팅</b> — 모임 전 이야기의 실마리가 되는 발제문을 미리 공유하고, 대화가 겉돌지 않도록 호스트가 진행을 맡습니다.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="kicker">일정 & 도서</div>
+    <h2>네 번의 만남</h2>
+    <div class="sessions">
+
+      <div class="session">
+        <div class="tab">1화</div>
+        <div class="date">2026. 09. 20 (일)</div>
+        <h3>쇼코의 미소</h3>
+        <div class="author">최은영</div>
+        <div class="question">이번 화의 질문 — <em>이상적인 관계란?</em></div>
+      </div>
+
+      <div class="session">
+        <div class="tab">2화</div>
+        <div class="date">2026. 10. 18 (일)</div>
+        <h3>우리가 빛의 속도로 갈 수 없다면</h3>
+        <div class="author">김초엽</div>
+        <div class="question">이번 화의 질문 — <em>이상적인 미래란?</em></div>
+      </div>
+
+      <div class="session">
+        <div class="tab">3화</div>
+        <div class="date">2026. 11. 15 (일)</div>
+        <h3>영원한 천국</h3>
+        <div class="author">정유정</div>
+        <div class="question">이번 화의 질문 — <em>이상적인 세계란?</em></div>
+      </div>
+
+      <div class="session">
+        <div class="tab">4화</div>
+        <div class="date">2026. 12. 20 (일)</div>
+        <h3>죽음의 수용소에서</h3>
+        <div class="author">빅터 프랭클</div>
+        <div class="question">이번 화의 질문 — <em>이상적인 삶이란?</em></div>
+        <div class="note">4화의 도서는 진행 상황에 따라 변경될 수 있습니다.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">참가 안내</div>
+    <h2>알아두시면 좋은 것들</h2>
+    <div class="info-grid">
+      <div class="block">
+        <h4>모집 인원</h4>
+        <p>호스트 포함 총 6명. 부득이하게 불참하실 경우 게스트로 대신 참석하실 수 있습니다 (사전 협의 필요).</p>
+      </div>
+      <div class="block">
+        <h4>장소</h4>
+        <p>연희동에 위치한 아늑한 작은 주택입니다. 상세 주소는 참가가 확정되신 분께 개별로 안내드립니다.</p>
+      </div>
+      <div class="block">
+        <h4>비용</h4>
+        <p>다과와 음료 준비를 위한 소정의 비용이 있습니다. 회당 1만원 내외이며, 자세한 사항은 참가 확정 후 단체 대화방에서 안내드립니다.</p>
+      </div>
+      <div class="block">
+        <h4>유의사항</h4>
+        <p>개인 자택에서 진행되는 만큼 시간 엄수와 기본적인 매너를 부탁드립니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="kicker" style="text-align:center;">참여 의사가 있으시다면</div>
+    <h2>호스트에게 연락 주세요</h2>
+    <p>함께하고 싶으신 분은 호스트에게 개별로 연락해 주세요. 참여 의사를 확인하신 분들께는 단체 대화방으로 초대해 드립니다.</p>
+    <div class="deadline">8월 30일, 단체 대화방 초대</div>
+  </section>
+
+  <footer>
+    각자의 이상적인 것을 나누는 독서모임 · 2026 가을–겨울
+  </footer>
+</div>
+
+</body>
+</html>
